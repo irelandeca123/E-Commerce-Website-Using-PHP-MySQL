@@ -1,10 +1,11 @@
 <?php
 
 
+if($connection){
+    
+    echo "connected sucessfully!";
 
-echo "from functions";
-
-
+}
 
 
 ?>
