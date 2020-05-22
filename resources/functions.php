@@ -2,6 +2,15 @@
  
 //helper functions
 
+function last_id(){
+
+  global $connection;
+
+  return mysqli_insert_id($connection);
+
+}
+
+
 function set_message($msg) {
 
   if(!empty($msg)) {
@@ -107,7 +116,7 @@ $product = <<<DELIMETER
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
 </h4>
 <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-<a class="btn btn-primary" target="_blank" href="cart.php?add={$row['product_id']}">Add to cart</a>
+<a class="btn btn-primary" target="_blank" href="../resources/cart.php?add={$row['product_id']}">Add to cart</a>
 </div>
 
 </div>
@@ -241,7 +250,9 @@ if(mysqli_num_rows($query) == 0) {
 }
 
 else {
-  set_message("Welcome to Admin {$username}");
+
+  $_SESSION['username'] = $username;
+  //set_message("Welcome to Admin {$username}");
   redirect("admin");
 }
 
@@ -287,7 +298,42 @@ function send_message() {
 
 
 
+function display_orders() {
 
+
+$query = query("SELECT * FROM orders");
+confirm($query);
+
+
+while($row = fetch_array($query)) {
+
+$orders = <<<DELIMETER
+
+<tr> 
+    <td>{$row['order_id']}</td>
+    <td>{$row['order_amount']}</td>
+    <td>{$row['order_transaction']}</td>
+    <td>{$row['order_currency']}</td>
+    <td>{$row['order_status']}</td>
+    <td><a class="btn btn-danger" href="../../resources/templates/back/delete_order.php?id={$row['order_id']}"><span class="glyphicon glyphicon-remove"></span></a></td>
+</tr>
+
+DELIMETER;
+
+echo $orders;
+
+
+}
+
+
+
+
+
+
+
+
+
+}
 
 
 
