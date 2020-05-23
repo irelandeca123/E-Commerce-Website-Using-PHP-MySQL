@@ -83,13 +83,18 @@ function cart() {
             while($row = fetch_array($query)) {
 
             $sub = $row['product_price'] * $value;
-
             $item_quantity +=$value;
+
+            $product_image = display_image($row['product_image']);
         
             $product = <<<DELIMETER
         
             <tr>
-            <td>{$row['product_title']}</td>
+            <td>{$row['product_title']}<br>
+            
+            <img width='100' src='../resources/{$product_image}'> 
+            
+            </td>
             <td>&#8364;{$row['product_price']}</td>
             <td>{$value}</td>
             <td>&#8364;{$sub}</td>
@@ -187,7 +192,7 @@ if(isset($_GET['tx'])){
 
             $id = substr($name, 8, $length);
 
-            $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency) VALUES('{$amount}','{$transaction}','{$currency}','{$status}')");
+            $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_currency, order_status) VALUES('{$amount}','{$transaction}','{$currency}','{$status}')");
             $last_id = last_id();
             echo $last_id;
             confirm($send_order);
